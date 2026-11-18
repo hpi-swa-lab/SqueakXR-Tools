@@ -78,7 +78,7 @@ SROpenCode class >> xrMenuOpenOpenCode: aMenu [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'MCPServer (leo) 11/16/2026 15:00'
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 14:15'
 }
 SROpenCode >> initialize [
 
@@ -90,6 +90,7 @@ SROpenCode >> initialize [
 	voiceMenu := SRMenu new
 		grabTarget: self;
 		addItem: 'Toggle voice mode' action: [self toggleVoiceMode] keepOpen: true;
+		addItem: 'Mute / unmute mic' action: [self toggleMicrophoneMute] keepOpen: true;
 		yourself.
 	voiceMenu rebuild.
 	self addChildren: {panel. voiceMenu}.
@@ -170,6 +171,17 @@ SROpenCode >> step: deltaTime [
 
 	super step: deltaTime.
 	self positionVoiceMenu.
+]
+
+{
+	#category : #actions,
+	#'squeak_changestamp' : 'leo 11/18/2026 14:31'
+}
+SROpenCode >> toggleMicrophoneMute [
+
+	panel ifNil: [^ self].
+	panel morph ifNil: [^ self].
+	panel morph writeInput: (String with: (Character value: 25)).
 ]
 
 {

@@ -60,6 +60,17 @@ SROpenCodeTest >> testEmptyDirectoryKeepsTheShellWorkingDirectory [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 14:15'
+}
+SROpenCodeTest >> testMuteToggleWritesControlYAndNeverEndsTheCall [
+
+	openCodePanel toggleMicrophoneMute.
+	self assert: openCodePanel panel morph lastInput asByteArray equals: #[25].
+	self deny: (openCodePanel panel morph lastInput includes: (Character value: 24))
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'MCPServer (leo) 11/16/2026 15:00'
 }
 SROpenCodeTest >> testOnlyTheTerminalPanelIsTurnedAround [
@@ -146,17 +157,19 @@ SROpenCodeTest >> testVoiceMenuFollowsTheLowerRightCorner [
 
 {
 	#category : #tests,
-	#'squeak_changestamp' : 'MCPServer (leo) 11/16/2026 14:51'
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 14:15'
 }
-SROpenCodeTest >> testVoiceMenuHasOnePersistentAction [
+SROpenCodeTest >> testVoiceMenuHasToggleAndMuteActions [
 
 	| rows |
 	rows := openCodePanel voiceMenu children select: [:each | each isMenuItem].
-	self assert: rows size equals: 1.
-	self assert: rows first label equals: 'Toggle voice mode'.
-	self assert: rows first keepsMenuOpen.
+	self assert: rows size equals: 2.
+	self assert: (rows collect: [:each | each label]) asArray equals: #('Toggle voice mode' 'Mute / unmute mic').
+	self assert: (rows allSatisfy: [:each | each keepsMenuOpen]).
 	rows first action value.
 	self assert: openCodePanel panel morph lastInput asByteArray equals: #[24 118].
+	rows second action value.
+	self assert: openCodePanel panel morph lastInput asByteArray equals: #[25].
 ]
 
 {
