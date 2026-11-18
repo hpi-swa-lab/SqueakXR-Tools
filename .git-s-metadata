@@ -1,0 +1,15 @@
+GSMetadata {
+	#version : 1,
+	#mappers : OrderedCollection [
+		GSTonelMapper {
+			#version : 1,
+			#package : MCPackage {
+				#name : 'SqueakXRTools'
+			},
+			#path : FSAbsolutePath [
+				'src'
+			]
+		}
+	],
+	#name : 'SqueakXR-Tools'
+}
