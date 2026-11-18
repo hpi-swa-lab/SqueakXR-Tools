@@ -67,6 +67,16 @@ SROpenCode class >> startingDirectory: aString [
 ]
 
 {
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'leo 11/18/2026 11:31'
+}
+SROpenCode class >> xrMenuOpenOpenCode: aMenu [
+
+	<xrMenu: #(world tools) label: 'OpenCode' priority: 215>
+	^ self open
+]
+
+{
 	#category : #initialization,
 	#'squeak_changestamp' : 'MCPServer (leo) 11/16/2026 15:00'
 }
