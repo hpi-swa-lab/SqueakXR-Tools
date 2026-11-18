@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'savedSharedTool'
 	],
-	#category : #'SqueakXRTools-Test',
+	#category : #'SqueakXRTools-Tests',
 	#'squeak_changestamp' : '<historical>'
 }
 
