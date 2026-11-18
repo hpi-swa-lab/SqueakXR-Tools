@@ -114,6 +114,26 @@ SROpenCode >> mountTerminal [
 ]
 
 {
+	#category : #grabbing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
+}
+SROpenCode >> onGrabStarted: aHand [
+
+	super onGrabStarted: aHand.
+	panel stopAligning
+]
+
+{
+	#category : #grabbing,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:35'
+}
+SROpenCode >> onGrabStopped: aHand [
+
+	super onGrabStopped: aHand.
+	panel alignToCamera
+]
+
+{
 	#category : #updating,
 	#'squeak_changestamp' : 'MCPServer (leo) 11/16/2026 14:51'
 }

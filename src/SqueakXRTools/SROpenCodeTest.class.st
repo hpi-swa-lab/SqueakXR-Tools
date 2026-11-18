@@ -50,12 +50,42 @@ SROpenCodeTest >> testAddingToAWorldMountsTheTerminalMorph [
 
 {
 	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:40'
+}
+SROpenCodeTest >> testAligningTurnsTheWholeAppSoThePanelFacesTheCamera [
+
+	| camera panelRotation |
+	camera := 0 @ 1.6m @ 0.
+	panelRotation := openCodePanel panel localRotation.
+	openCodePanel
+		globalTranslation: 1m @ 3.5m @ -2m;
+		globalRotation: (Quaternion angle: 30 axis: Vector3 forward).
+	openCodePanel panel alignTowards: camera.
+	[openCodePanel panel alignmentTween isStepping] whileTrue: [openCodePanel panel alignmentTween step: 0.1].
+	self assert: ((openCodePanel panel forward dot: (camera - openCodePanel panel globalTranslation) normalized) closeTo: 1).
+	self assert: openCodePanel panel localRotation equals: panelRotation
+]
+
+{
+	#category : #tests,
 	#'squeak_changestamp' : 'MCPServer (leo) 11/16/2026 14:46'
 }
 SROpenCodeTest >> testEmptyDirectoryKeepsTheShellWorkingDirectory [
 
 	#('Win32' 'unix') do: [:platformName |
 		self assert: (SROpenCode launchCommandForDirectory: '' platform: platformName) equals: 'opencode'].
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:36'
+}
+SROpenCodeTest >> testGrabbingTheAppStopsAligning [
+
+	openCodePanel globalRotation: (Quaternion angle: 30 axis: Vector3 forward).
+	openCodePanel panel alignTowards: 0 @ 1.6m @ 0.
+	openCodePanel panel grabTarget startGrabbing: nil.
+	self deny: openCodePanel panel alignmentTween isStepping
 ]
 
 {
@@ -67,6 +97,24 @@ SROpenCodeTest >> testMuteToggleWritesControlYAndNeverEndsTheCall [
 	openCodePanel toggleMicrophoneMute.
 	self assert: openCodePanel panel morph lastInput asByteArray equals: #[25].
 	self deny: (openCodePanel panel morph lastInput includes: (Character value: 24))
+]
+
+{
+	#category : #tests,
+	#'squeak_changestamp' : 'leo-MCPServer 11/18/2026 17:43'
+}
+SROpenCodeTest >> testNearCameraHeightTheWholeAppFacesTheCameraAxis [
+
+	| panelRotation |
+	panelRotation := openCodePanel panel localRotation.
+	openCodePanel
+		globalTranslation: 1m @ 50cm @ -2m;
+		globalRotation: (Quaternion angle: 30 axis: Vector3 forward).
+	openCodePanel panel alignTowards: 0 @ 0 @ 0.
+	[openCodePanel panel alignmentTween isStepping] whileTrue: [openCodePanel panel alignmentTween step: 0.1].
+	self assert: (openCodePanel panel up - Vector3 up) length < 0.001.
+	self assert: (openCodePanel panel forward - (-1 @ 0 @ 2) normalized) length < 0.001.
+	self assert: openCodePanel panel localRotation equals: panelRotation
 ]
 
 {
